@@ -8,10 +8,11 @@ class VkApiError(requests.HTTPError):
 
 
 def catch_vk_api_error(response: requests.Response):
-    if 'error' in response.json().keys():
+    serialized_response = response.json()
+    if 'error' in serialized_response.keys():
         raise VkApiError(
-            f"error_code: {response.json()['error']['error_code']}",
-            response.json()['error']['error_msg'],
+            f"error_code: {serialized_response['error']['error_code']}",
+            serialized_response['error']['error_msg'],
         )
 
 
