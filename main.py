@@ -11,13 +11,13 @@ IMAGES_DIR = 'media/'
 
 
 def main():
+    Path(IMAGES_DIR).mkdir(parents=True, exist_ok=True)
+    env = Env()
+    env.read_env()
+    group_id = env.int('VK_GROUP_ID')
+    vk_token = env.str('VK_API_TOKEN')
+    img_path, comics_sign = fetch_random_comics(IMAGES_DIR)
     try:
-        Path(IMAGES_DIR).mkdir(parents=True, exist_ok=True)
-        env = Env()
-        env.read_env()
-        group_id = env.int('VK_GROUP_ID')
-        vk_token = env.str('VK_API_TOKEN')
-        img_path, comics_sign = fetch_random_comics(IMAGES_DIR)
         upload_url = get_wall_upload_server(group_id, vk_token)
         vk_server_data = upload_photo_to_server(
             img_path,
